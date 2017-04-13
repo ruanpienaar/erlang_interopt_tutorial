@@ -1,0 +1,12 @@
+{application, erlang_port_example,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { erlang_port_example_app, []}},
+  {env, []}
+ ]}.
