@@ -8,3 +8,6 @@ ebin
 rel/example_project
 .concrete/DEV_MODE
 .rebar
+priv/erlang_port_example_drv.so
+c_src/erl_sqlite.d
+compile_commands.json
