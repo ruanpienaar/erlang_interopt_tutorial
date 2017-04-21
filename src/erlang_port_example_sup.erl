@@ -25,5 +25,4 @@ start_link() ->
 %% ===================================================================
 
 init([]) ->
-    {ok, { {one_for_one, 5, 10}, [?CHILD(sqlite_port_owner, worker)]} }.
-
+    {ok, { {one_for_one, 5, 10}, []} }.

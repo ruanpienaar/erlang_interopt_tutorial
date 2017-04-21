@@ -1,7 +1,10 @@
 .PHONY: compile get-deps update-deps test clean deep-clean
 
-compile: get-deps update-deps
+compile: compile-port get-deps update-deps
 	@rebar compile
+
+compile-port:
+	@cd example_port && gcc -o ../priv/extprg complex.c erl_comm.c port.c
 
 get-deps:
 	@rebar get-deps
