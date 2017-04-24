@@ -22,7 +22,7 @@ erl> complex1:foo(1).
 
 ### A more detailed dtrace
 ```
-$ sudo sudo dtrace -F -s dtrace_extprg1_pid.d `ps aux | grep extprg1 | awk '{print $2 }'`
+$ sudo sudo dtrace -F -s dtrace_extprg1_pid.d `ps aux | grep extprg1 | grep -v grep | awk '{print $2 }'`
 erl> complex1:foo(1).
 ```
 
@@ -42,7 +42,7 @@ erl> complex2:foo(3).
 
 ### A more detailed dtrace
 ```
-$ sudo dtrace -F -s dtrace_extprg2_pid.d `ps aux | grep extprg2 | awk '{print $2 }'`
+$ sudo dtrace -F -s dtrace_extprg2_pid.d `ps aux | grep extprg2 | grep -v grep | awk '{print $2 }'`
 erl> complex2:foo(3).
 ```
 
