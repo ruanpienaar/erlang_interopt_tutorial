@@ -1,0 +1,10 @@
+/* complex.c */
+#include <stdio.h>
+
+int foo(int x) {
+  return x+1;
+}
+
+int bar(int y) {
+  return y*2;
+}

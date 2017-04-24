@@ -1,5 +1,12 @@
 
--module(complex1).
+-module(complex2).
+
+%% Complex2 is made to show the use of erl_interface/ext term format,
+%% rather then encoding/deconing terms yourself Complex1,
+%% Changes from complex1 -> complex2:
+% 1) open port as binary
+% 2) send and receive erlang external term format ( term_to_binary/ binary_to_term)
+
 -export([start/1, stop/0, init/1]).
 -export([foo/1, bar/1]).
 
@@ -23,29 +30,24 @@ call_port(Msg) ->
 init(ExtPrg) ->
     register(complex, self()),
     process_flag(trap_exit, true),
-    Port = open_port({spawn, ExtPrg}, [{packet, 2}]),
+    Port = open_port({spawn, ExtPrg}, [{packet, 2}, binary]),
     loop(Port).
 
 loop(Port) ->
     receive
     {call, Caller, Msg} ->
-        Port ! {self(), {command, encode(Msg)}},
+        Port ! {self(), {command, term_to_binary(Msg)}},
         receive
-    {Port, {data, Data}} ->
-        Caller ! {complex, decode(Data)}
+        {Port, {data, Data}} ->
+            Caller ! {complex, binary_to_term(Data)}
         end,
         loop(Port);
     stop ->
         Port ! {self(), close},
         receive
-    {Port, closed} ->
-        exit(normal)
+        {Port, closed} ->
+            exit(normal)
         end;
     {'EXIT', Port, Reason} ->
         exit(port_terminated)
     end.
-
-encode({foo, X}) -> [1, X];
-encode({bar, Y}) -> [2, Y].
-
-decode([Int]) -> Int.
