@@ -1,5 +1,6 @@
 /* ei.c */
 
+#include <string.h>
 #include "erl_interface.h"
 #include "ei.h"
 

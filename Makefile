@@ -1,13 +1,18 @@
 .PHONY: compile get-deps update-deps test clean deep-clean
 
-compile: compile-complex1 get-deps update-deps
+compile: compile-complex2 compile-complex1 get-deps update-deps
 	@rebar compile
 
 compile-complex1:
-	@cd complex1_c_src && gcc -o ../priv/extprg complex.c erl_comm.c port.c
+	@cd complex1_c_src && gcc -o ../priv/extprg1 complex.c erl_comm.c port.c
 
 compile-complex2:
-	@cd complexs_c_src && gcc -o ../priv/extprg complex.c erl_comm.c port.c
+	@cd complex2_c_src \
+	&& gcc -I "`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/include" \
+	-L"`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/lib" \
+	-o ../priv/extprg2 \
+	../complex1_c_src/complex.c ../complex1_c_src/erl_comm.c ei.c \
+	-l erl_interface -l ei
 
 get-deps:
 	@rebar get-deps

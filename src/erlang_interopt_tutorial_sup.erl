@@ -1,4 +1,4 @@
--module(erlang_port_example_sup).
+-module(erlang_interopt_tutorial_sup).
 
 -behaviour(supervisor).
 

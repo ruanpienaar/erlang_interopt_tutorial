@@ -9,4 +9,5 @@ ebin
 .rebar
 priv/*.so
 compile_commands.json
-priv/extprg
+priv/extprg1
+priv/extprg2

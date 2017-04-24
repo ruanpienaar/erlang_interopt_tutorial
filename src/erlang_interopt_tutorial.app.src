@@ -1,0 +1,12 @@
+{application, erlang_interopt_tutorial,
+ [
+  {description, "erlang_interopt_tutorial"},
+  {vsn, "1.0"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { erlang_interopt_tutorial_app, []}},
+  {env, []}
+ ]}.
