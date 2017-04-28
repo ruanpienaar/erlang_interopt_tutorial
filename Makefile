@@ -1,6 +1,6 @@
 .PHONY: compile get-deps update-deps test clean deep-clean
 
-compile: compile-complex2 compile-complex1 get-deps update-deps
+compile: compile-complex5 compile-complex2 compile-complex1 get-deps update-deps
 	@rebar compile
 
 compile-complex1:

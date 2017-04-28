@@ -1,6 +1,13 @@
 # erlang_interopt_tutorial
 A example erlang port driver repo
 
+<!-- TODO: reword the data, so that we talk about
+1) port
+2) erl_interface
+3) linked-in port drivers
+4) c nodes
+5) NIFs -->
+
 # Getting started
 ```
 $ git clone https://github.com/ruanpienaar/erlang_interopt_tutorial
@@ -46,10 +53,11 @@ $ sudo dtrace -F -s dtrace_extprg2_pid.d `ps aux | grep extprg2 | grep -v grep |
 erl> complex2:foo(3).
 ```
 
-# Example 3
+# Example 3 ( complex5 / example_drv.so )
 ```
 $ ./start-dev.sh
 erl> complex5:start("example_drv").
+erl> complex5:foo(3).
 ```
 
 # References:
