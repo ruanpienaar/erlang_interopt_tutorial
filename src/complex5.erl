@@ -3,7 +3,7 @@
 -export([foo/1, bar/1]).
 
 start(SharedLib) ->
-    case erl_ddll:load_driver(".", SharedLib) of
+    case erl_ddll:load_driver(code:priv_dir(erlang_interopt_tutorial), SharedLib) of
 	ok -> ok;
 	{error, already_loaded} -> ok;
 	_ -> exit({error, could_not_load_driver})

@@ -46,6 +46,11 @@ $ sudo dtrace -F -s dtrace_extprg2_pid.d `ps aux | grep extprg2 | grep -v grep |
 erl> complex2:foo(3).
 ```
 
+# Example 3
+```
+$ ./start-dev.sh
+erl> complex5:start("example_drv").
+```
 
 # References:
 http://erlang.org/doc/tutorial/introduction.html

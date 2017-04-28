@@ -15,7 +15,7 @@ compile-complex2:
 	-l erl_interface -l ei
 
 compile-complex5:
-	@cd complex5_c_src && gcc -I "`which erl | xargs dirname`/../usr/include" \
+	@cd complex5_c_src && gcc -g -Wall -DDEBUG  -dynamiclib -undefined dynamic_lookup -I "`which erl | xargs dirname`/../usr/include" \
 	-o ../priv/example_drv.so -fpic -shared ../complex1_c_src/complex.c port_driver.c
 
 get-deps:
