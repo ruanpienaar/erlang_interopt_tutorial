@@ -12,7 +12,7 @@ compile-complex2:
 	-L"`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/lib" \
 	-o ../priv/extprg2 \
 	../complex1_c_src/complex.c ../complex1_c_src/erl_comm.c ei.c \
-	-l erl_interface -l ei
+	-lpthread -l erl_interface -l ei
 
 compile-complex5:
 	@cd complex5_c_src && gcc -g -Wall -DDEBUG  -dynamiclib -undefined dynamic_lookup -I "`which erl | xargs dirname`/../usr/include" \
