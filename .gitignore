@@ -12,3 +12,6 @@ compile_commands.json
 priv/extprg1
 priv/extprg2
 priv/example_drv*
+priv/cserver
+priv/cserver2
+priv/cclient

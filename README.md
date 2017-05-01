@@ -1,7 +1,7 @@
 # erlang_interopt_tutorial
 A example erlang port driver repo
 
-<!-- TODO: reword the data, so that we talk about
+<!-- TODO: reword the data/complex/example naming convention, so that we talk about
 1) port
 2) erl_interface
 3) linked-in port drivers
@@ -59,6 +59,41 @@ $ ./start-dev.sh
 erl> complex5:start("example_drv").
 erl> complex5:foo(3).
 ```
+
+# Tracing the linked-in driver as part of the vm/emulator/beam.smp
+```
+$ sudo dtrace -n 'pid$target:beam.smp:*driver*:entry { trace(execname) }' -p `ps aux | grep beam.smp | grep erlang_interopt_tutorial | awk '{ print $2 }'`
+```
+
+OR
+
+```
+$ PID=`ps aux | grep beam.smp | grep erlang_interopt_tutorial | awk '{ print $2 }'` && sudo dtrace -x ustackframes=100 -n 'pid$target:beam.smp:*driver*:entry /pid== '"${PID}"'/ { ustack();  }' -p $PID
+```
+
+# Example 3+4 ( complex3, complex4 ) C Node - C Server Sname
+```
+$ ./priv/cserver 3456
+$ ./start-dev.sh
+erl> complex3:foo(3).
+```
+
+# Example 3+4 ( complex3, complex4 ) C Node - C Server Lname
+```
+$ ./priv/cserver2 3456
+$ ./start-dev.sh
+erl> complex4:foo(3).
+```
+
+# Example 3+4 ( complex3, complex4 ) C Node - C Client
+```
+$ ./start-sname-cnode.sh
+$ ./priv/cclient
+erl> complex3:foo(3).
+```
+
+
+TODO: Example 3+4 Tracing
 
 # References:
 http://erlang.org/doc/tutorial/introduction.html

@@ -1,6 +1,6 @@
 .PHONY: compile get-deps update-deps test clean deep-clean
 
-compile: compile-complex5 compile-complex2 compile-complex1 get-deps update-deps
+compile: compile-complex3+4_client compile-complex3+4_longname compile-complex3+4_shortname compile-complex5 compile-complex2 compile-complex1 get-deps update-deps
 	@rebar compile
 
 compile-complex1:
@@ -13,6 +13,24 @@ compile-complex2:
 	-o ../priv/extprg2 \
 	../complex1_c_src/complex.c ../complex1_c_src/erl_comm.c ei.c \
 	-lpthread -l erl_interface -l ei
+
+compile-complex3+4_shortname:
+	@cd complex3+4_c_src && gcc -o ../priv/cserver -I "`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/include" \
+	-I "`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/lib" \
+	-L"`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/lib" \
+	../complex1_c_src/complex.c cnode_s.c -lerl_interface -lei
+
+compile-complex3+4_longname:
+	@cd complex3+4_c_src && gcc -o ../priv/cserver2 -I "`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/include" \
+        -I "`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/lib" \
+        -L"`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/lib" \
+        ../complex1_c_src/complex.c cnode_s2.c -lerl_interface -lei
+
+compile-complex3+4_client:
+	@cd complex3+4_c_src && gcc -o ../priv/cclient -I "`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/include" \
+        -I "`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/lib" \
+        -L"`which erl | xargs dirname | xargs -I dir find "dir/../lib/" -type d -name "erl_interface*"`/lib" \
+        ../complex1_c_src/complex.c cnode_c.c -lerl_interface -lei
 
 compile-complex5:
 	@cd complex5_c_src && gcc -g -Wall -DDEBUG  -dynamiclib -undefined dynamic_lookup -I "`which erl | xargs dirname`/../usr/include" \
