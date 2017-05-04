@@ -1,6 +1,6 @@
 .PHONY: compile get-deps update-deps test clean deep-clean
 
-compile: compile-complex3+4_client compile-complex3+4_longname compile-complex3+4_shortname compile-complex5 compile-complex2 compile-complex1 get-deps update-deps
+compile: compile-complex6 compile-complex3+4_client compile-complex3+4_longname compile-complex3+4_shortname compile-complex5 compile-complex2 compile-complex1 get-deps update-deps
 	@rebar compile
 
 compile-complex1:
@@ -33,8 +33,12 @@ compile-complex3+4_client:
         ../complex1_c_src/complex.c cnode_c.c -lerl_interface -lei
 
 compile-complex5:
-	@cd complex5_c_src && gcc -g -Wall -DDEBUG  -dynamiclib -undefined dynamic_lookup -I "`which erl | xargs dirname`/../usr/include" \
+	@cd complex5_c_src && gcc -dynamiclib -undefined dynamic_lookup -I "`which erl | xargs dirname`/../usr/include" \
 	-o ../priv/example_drv.so -fpic -shared ../complex1_c_src/complex.c port_driver.c
+
+compile-complex6:
+	@cd complex6_c_src && gcc -dynamiclib -undefined dynamic_lookup -I "`which erl | xargs dirname`/../usr/include" \
+	 -o ../priv/complex6_nif.so -fpic -shared ../complex1_c_src/complex.c complex6_nif.c
 
 get-deps:
 	@rebar get-deps

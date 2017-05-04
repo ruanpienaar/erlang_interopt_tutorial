@@ -7,7 +7,7 @@ erl_crash.dump
 ebin
 .concrete/DEV_MODE
 .rebar
-priv/*.so
+priv/*.so*
 compile_commands.json
 priv/extprg1
 priv/extprg2

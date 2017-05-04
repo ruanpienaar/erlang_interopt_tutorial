@@ -29,7 +29,7 @@ erl> complex1:foo(1).
 
 ### A more detailed dtrace
 ```
-$ sudo sudo dtrace -F -s dtrace_extprg1_pid.d `ps aux | grep extprg1 | grep -v grep | awk '{print $2 }'`
+$ sudo dtrace -F -s dtrace_extprg1_pid.d `ps aux | grep extprg1 | grep -v grep | awk '{print $2 }'`
 erl> complex1:foo(1).
 ```
 
@@ -71,29 +71,91 @@ OR
 $ PID=`ps aux | grep beam.smp | grep erlang_interopt_tutorial | awk '{ print $2 }'` && sudo dtrace -x ustackframes=100 -n 'pid$target:beam.smp:*driver*:entry /pid== '"${PID}"'/ { ustack();  }' -p $PID
 ```
 
-# Example 3+4 ( complex3, complex4 ) C Node - C Server Sname
+# Example 4 ( complex3, complex4 ) C Node - C Server Sname
 ```
 $ ./priv/cserver 3456
 $ ./start-dev.sh
 erl> complex3:foo(3).
 ```
 
-# Example 3+4 ( complex3, complex4 ) C Node - C Server Lname
+# Tracing Example 4 - trace execname
+```
+$ sudo dtrace -F -s dtrace_cserver.d
+$ ./priv/cserver2 3456
+$ ./start-dev.sh
+erl> complex3:foo(3).
+```
+
+# Tracing Example 4 - trace cserver PID
+```
+$ ./priv/cserver 3456
+$ sudo dtrace -F -s dtrace_cserver_pid.d -p `ps aux | grep cserver | grep -v grep | awk '{print $2 }'`
+$ ./start-dev.sh
+erl> complex3:foo(3).
+```
+
+# Example 5 ( complex3, complex4 ) C Node - C Server Lname
 ```
 $ ./priv/cserver2 3456
 $ ./start-dev.sh
 erl> complex4:foo(3).
 ```
 
-# Example 3+4 ( complex3, complex4 ) C Node - C Client
+# Tracing Example 5 - trace execname
+```
+$ sudo dtrace -F -s dtrace_cserver2.d
+$ ./priv/cserver2 3456
+$ ./start-dev.sh
+erl> complex4:foo(3).
+```
+
+
+# Tracing Example 5 - trace cserver PID
+( TODO: not working at the mo... )
+```
+$ ./priv/cserver2 3456
+$ sudo dtrace -F -s dtrace_cserver2_pid.d -p `ps aux | grep cserver2 | grep -v grep | awk '{print $2 }'`
+$ ./start-dev.sh
+erl> complex4:foo(3).
+```
+
+# Example 6 ( complex3, complex4 ) C Node - C Client
 ```
 $ ./start-sname-cnode.sh
 $ ./priv/cclient
 erl> complex3:foo(3).
 ```
 
+# Tracing Example 6 - trace execname
+```
+$ sudo dtrace -F -s dtrace_cclient.d
+$ ./start-sname-cnode.sh
+$ ./priv/cclient
+```
 
-TODO: Example 3+4 Tracing
+# Tracing Example 6 - trace C client PID
+( TODO: also not working at the mo... )
+```
+$ ./start-sname-cnode.sh
+$ ./priv/cclient
+$ sudo dtrace -F -s dtrace_cclient_pid.d -p `ps aux | grep cclient | grep -v grep | awk '{print $2 }'`
+```
+
+# Example 7 ( NIFs )
+
+```
+$ ./start-dev.sh
+erl> complex6:foo(2).
+```
+
+# Tracing Example 7 - Tracing the nif code as part of the beam.smp
+( TODO: trace driver and nif, it seems the NIF uses some driver stuff )
+```
+$ ./start-dev.sh
+$ PID=`ps aux | grep beam.smp | grep erlang_interopt_tutorial | awk '{ print $2 }'` && sudo dtrace -x ustackframes=100 -n 'pid$target:beam.smp:*nif*:entry /pid== '"${PID}"'/ { ustack();  }' -p $PID
+erl> complex6:foo(2).
+```
+
 
 # References:
 http://erlang.org/doc/tutorial/introduction.html
