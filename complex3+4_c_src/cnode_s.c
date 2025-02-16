@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <string.h>
 
 #include "erl_interface.h"
 #include "ei.h"

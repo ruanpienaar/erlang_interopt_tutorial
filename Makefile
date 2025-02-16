@@ -1,7 +1,7 @@
-.PHONY: compile get-deps update-deps test clean deep-clean
+.PHONY: rebar3 compile clean
 
-compile: compile-complex6 compile-complex3+4_client compile-complex3+4_longname compile-complex3+4_shortname compile-complex5 compile-complex2 compile-complex1 get-deps update-deps
-	@rebar compile
+compile: compile-complex6 compile-complex3+4_client compile-complex3+4_longname compile-complex3+4_shortname compile-complex5 compile-complex2 compile-complex1
+	@./rebar3 compile
 
 compile-complex1:
 	@cd complex1_c_src && gcc -o ../priv/extprg1 complex.c erl_comm.c port.c
@@ -40,31 +40,8 @@ compile-complex6:
 	@cd complex6_c_src && gcc -dynamiclib -undefined dynamic_lookup -I "`which erl | xargs dirname`/../usr/include" \
 	 -o ../priv/complex6_nif.so -fpic -shared ../complex1_c_src/complex.c complex6_nif.c
 
-get-deps:
-	@rebar get-deps
-
-update-deps:
-	@rebar update-deps
-
 clean:
-	rm ebin/*
-	@rebar clean
+	@./rebar3 clean
 
-deep-clean: clean
-	@rebar delete-deps
-
-setup_dialyzer:
-	dialyzer --build_plt --apps erts kernel stdlib runtime_tools syntax_tools deps/*/ebin ./ebin
-	dialyzer --add_to_plt ebin
-
-dialyzer: compile
-	dialyzer ebin
-
-analyze: checkplt
-	@rebar skip_deps=true dialyze
-
-buildplt: setup_dialyzer
-	@rebar skip_deps=true build-plt
-
-checkplt: buildplt
-	@rebar skip_deps=true check-plt
+rebar3:
+	@ls rebar3 || wget https://s3.amazonaws.com/rebar3/rebar3 && chmod +x rebar3
